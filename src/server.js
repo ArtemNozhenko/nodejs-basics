@@ -1,7 +1,9 @@
 import express from 'express';
 import pino from 'pino-http';
 import cors from 'cors';
-import studentsRouter from './routers/students.js';
+import router from './routers/index.js';
+import cookieParser from 'cookie-parser';
+
 import { env } from './utils/env.js';
 import { errorHandler, notFoundHandler } from './middlewares/errorHandler.js';
 
@@ -12,6 +14,7 @@ export const startServer = () => {
 
   app.use(express.json());
   app.use(cors());
+  app.use(cookieParser());
 
   app.use(
     pino({
@@ -27,7 +30,7 @@ export const startServer = () => {
     });
   });
 
-  app.use(studentsRouter);
+  app.use(router);
 
   app.use('*', notFoundHandler);
 
